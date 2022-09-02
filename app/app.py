@@ -8,9 +8,7 @@ from flask_wtf.csrf import CSRFProtect
 import pyotp
 
 
-app = Flask(__name__,
-            template_folder="./templates")
-
+app = Flask(__name__,template_folder="./templates")
 
 bootstrap = Bootstrap(app)
 app.config.from_object('settings')
@@ -31,7 +29,7 @@ def index():
         login_password = form.user_pid_Password.data
 
         # create a directory to hold the Logs
-        login_msg = global_ldap_authentication(login_id, login_password)
+        login_msg = ldap_authentication(login_id, login_password)
 
         # validate the connection
         if login_msg == "Success":
@@ -48,16 +46,16 @@ def index():
 
 
 # 2FA page route
-@app.route("/login/2fa/")
-def login_2fa():
+@app.route("/mfa/")
+def mfa():
     # generating random secret key for authentication
     secret = pyotp.random_base32()
-    return render_template("login_2fa.html", secret=secret)
+    return render_template("mfa.html", secret=secret)
 
 
 # 2FA form route
 @app.route("/login/2fa/", methods=["POST"])
-def login_2fa_form():
+def mfa_form():
     # getting secret key used by user
     secret = request.form.get("secret")
     # getting OTP provided by user
