@@ -25,8 +25,8 @@ def index():
     form = LoginValidation()
 
     if request.method in ('POST') :
-        login_id = form.user_name_pid.data
-        login_password = form.user_pid_Password.data
+        login_id = form.user_name.data
+        login_password = form.user_Password.data
 
         # create a directory to hold the Logs
         login_msg = ldap_authentication(login_id, login_password)
