@@ -4,26 +4,17 @@ from ldap3.core.exceptions import LDAPException, LDAPBindError
 
 
 def ldap_authentication(user_name, user_pwd):
+    ldap_server = "ldap://openldap:8080"
 
-    # fetch the username and password
-    ldap_user_name = user_name
-    ldap_user_pwd = user_pwd
-
-    # ldap server hostname and port
-    ldap_server = "ldap://openldap:1389"
-
-    # dn
-    root_dn = "dc=example,dc=org"
-
-    # user
-    user = f'cn={ldap_user_name},{root_dn}'
+    user = f'cn={user_name},dc=example,dc=org'
 
     server = Server(ldap_server, get_info=ALL)
+    print("user:", user,"\nldap_server:", ldap_server,"\nserver:",server)
 
     try:
         connection = Connection(server,
                                 user=user,
-                                password=ldap_user_pwd)
+                                password=user_pwd)
         if not connection.bind():
             l_success_msg = f' ** Failed Authentication: {connection.last_error}'
             return l_success_msg

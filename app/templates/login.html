@@ -1,51 +1,38 @@
-<!DOCTYPE HTML>
-<html>
+{% extends 'index.html' %}
 
-<head>
-	<title>login</title>
-</head>
+{% block content %}
+<!-- Main -->
+<section id="main" class="container medium">
+    <!-- The Modal -->
+    <div id="id01" class="modal">
+        <span onclick="document.getElementById('id01').style.display='none'" class="close"
+            title="Close Modal">&times;</span>
+        <h2>Sign In</h2>
+    </div>
 
-<body class="is-preload">
-	<div id="page-wrapper">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 
-		<!-- Main -->
-		<section id="main" class="container medium">
-			<!-- The Modal -->
-			<div id="id01" class="modal">
-				<span onclick="document.getElementById('id01').style.display='none'" class="close"
-					title="Close Modal">&times;</span>
-				<h2>Sign In</h2>
-			</div>
+    <!-- Modal Content -->
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
-			{% with messages = get_flashed_messages() %}
-			{% if messages %}
-			<ul class=flashes>
-				{% for message in messages %}
-				<li>{{ message }}</li>
-				{% endfor %}
-			</ul>
-			{% endif %}
-			{% endwith %}
+        <div class="container">
+            <label for="user_name_pid"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="user_name_pid">
 
-			<!-- Modal Content -->
-			<form method="POST">
-				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <label for="user_pid_Password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="user_pid_Password">
+            <p class="error error--hidden"></p>
 
-				<div class="container">
-					<label for="user_name_pid"><b>Username</b></label>
-					<input type="text" placeholder="Enter Username" name="user_name_pid">
-
-					<label for="user_pid_Password"><b>Password</b></label>
-					<input type="password" placeholder="Enter Password" name="user_pid_Password">
-					<p class="error error--hidden"></p>
-
-					<button type="submit" class="button">Login</button>
-				</div>
-			</form>
-	</div>
-	</section>
-
-	</div>
-
-</body>
-</html>
+            <button type="submit" class="button">Login</button>
+        </div>
+    </form>
+{% endblock %}

@@ -2,7 +2,7 @@ from ldap3 import Server, Connection, ALL, SUBTREE
 from ldap3.core.exceptions import LDAPException, LDAPBindError
 
 # ldap server hostname and port
-ldsp_server = "ldap://openldap:1389"
+ldsp_server = "ldap://openldap:8080"
 
 # dn
 root_dn = "dc=example,dc=org"

@@ -35,7 +35,7 @@ def index():
         if login_msg == "Success":
             success_message = f"*** Authentication Success "
             flash(success_message)
-            return redirect('/login/2fa/')
+            return redirect('/mfa/')
 
         else:
             error_message = f"*** Authentication Failed - {login_msg}"
@@ -54,22 +54,21 @@ def mfa():
 
 
 # 2FA form route
-@app.route("/login/2fa/", methods=["POST"])
+@app.route("/mfa/", methods=["POST"])
 def mfa_form():
-    # getting secret key used by user
-    secret = request.form.get("secret")
-    # getting OTP provided by user
-    otp = int(request.form.get("otp"))
+    form = MfaVaValidation()
+    secret = form.secret.data
+    otp = form.otp.data
 
     # verifying submitted OTP with PyOTP
     if pyotp.TOTP(secret).verify(otp):
         # inform users if OTP is valid
         flash("The TOTP 2FA token is valid", "success")
-        return redirect(url_for("login_2fa"))
+        return redirect(url_for("mfa"))
     else:
         # inform users if OTP is invalid
         flash("You have supplied an invalid 2FA token!", "danger")
-        return redirect(url_for("login_2fa"))
+        return redirect(url_for("mfa"))
 
 
 if __name__ == "__main__":

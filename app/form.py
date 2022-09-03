@@ -10,3 +10,10 @@ class LoginValidation(FlaskForm):
 
     user_pid_Password = PasswordField('user_pid_Password', validators=[DataRequired(), Length(min=2, max=20)],
                                 render_kw={'autofocus': True, 'placeholder': 'Enter your login Password'})
+
+class MfaVaValidation(FlaskForm):
+    secret = StringField('secret', validators=[DataRequired(), Length(min=2, max=20)],
+                                render_kw={'autofocus': True, 'placeholder': 'Enter User'})
+
+    otp = StringField('otp', validators=[DataRequired(), Length(min=2, max=20)],
+                                render_kw={'autofocus': True, 'placeholder': 'Enter User'})
