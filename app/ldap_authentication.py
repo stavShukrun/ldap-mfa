@@ -1,10 +1,10 @@
 from time import pthread_getcpuclockid
 from ldap3 import Server, Connection, ALL
 
-def ldap_authentication(user_name, user_pwd):
+def ldap_authentication(user_name:str, user_pwd:str)->str:
     
-    ldap_server = "ldap://openldap:389"
-    user = f'cn={user_name},dc=example,dc=org'
+    ldap_server = "ldap://openldap:1389"
+    user = f'cn={user_name},dc=example,dc=com'
     server = Server(ldap_server, get_info=ALL)
 
     try:

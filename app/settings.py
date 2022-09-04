@@ -1,16 +1,12 @@
 from ldap3 import Server, Connection, ALL
 
-# ldap server hostname and port
-ldsp_server = "ldap://openldap:389"
+ldsp_server = "ldap://openldap:1389"
 
-# dn
-root_dn = "dc=example,dc=org"
+root_dn = "dc=example,dc=com"
 
-# ldap user and password
 ldap_user_name = 'admin'
-ldap_password = 'adminpassword'
+ldap_password = 'admin'
 
-# user
 user = f'cn={ldap_user_name},{root_dn}'
 
 server = Server(ldsp_server, get_info=ALL)
@@ -21,5 +17,4 @@ connection = Connection(server,
                         auto_bind=False)
 
 # for logs
-print("server:",server)
 print(f" *** Response from the ldap bind is \n{connection}" )

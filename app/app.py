@@ -19,19 +19,16 @@ csrf = CSRFProtect(app)
 
 
 @app.route('/', methods=['GET','POST'])
-def index():
+def login():
 
-    # initiate the form..
     form = LoginValidation()
 
     if request.method in ('POST') :
         login_id = form.user_name.data
         login_password = form.user_Password.data
 
-        # create a directory to hold the Logs
         login_msg = ldap_authentication(login_id, login_password)
 
-        # validate the connection
         if login_msg == "Success":
             success_message = f"*** Authentication Success "
             flash(success_message)
@@ -45,28 +42,25 @@ def index():
     return render_template('login.html', form=form)
 
 
-# 2FA page route
 @app.route("/mfa/")
 def mfa():
-    # generating random secret key for authentication
+    
     secret = pyotp.random_base32()
     return render_template("mfa.html", secret=secret)
 
 
-# 2FA form route
 @app.route("/mfa/", methods=["POST"])
 def mfa_form():
+
     form = MfaVaValidation()
+
     secret = form.secret.data
     otp = form.otp.data
 
-    # verifying submitted OTP with PyOTP
     if pyotp.TOTP(secret).verify(otp):
-        # inform users if OTP is valid
         flash("The TOTP 2FA token is valid", "success")
         return redirect(url_for("mfa"))
     else:
-        # inform users if OTP is invalid
         flash("You have supplied an invalid 2FA token!", "danger")
         return redirect(url_for("mfa"))
 

@@ -1,13 +1,5 @@
 version: "3"
 services:
-  app:
-    container_name: app
-    build: .
-    ports:
-      - '5000:5000'
-    networks:
-      - my-networks
-
   openldap:
     container_name: openldap
     image: bitnami/openldap:latest
@@ -19,6 +11,16 @@ services:
       - LDAP_ADMIN_PASSWORD=adminpassword
       - LDAP_USERS=user01,user02
       - LDAP_PASSWORDS=password1,password2
+    networks:
+      - my-networks
+
+  app:
+    container_name: app
+    build: .
+    ports:
+      - '5000:5000'
+    depends_on:
+      - openldap
     networks:
       - my-networks
 

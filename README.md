@@ -42,16 +42,16 @@ go to - https://minikube.sigs.k8s.io/docs/start/
 docker build -t app .
 cd k8s
 minikube image load app 
-cd app
-kubectl apply -f .
-cd ..
 cd openldap
 kubectl create secret generic openldap --from-literal=adminpassword=adminpassword --from-literal=users=user01,user02 --from-literal=passwords=password01,password02
+kubectl apply -f .
+cd ..
+cd app
 kubectl apply -f .
 ```
 Wait until pods are up (few seconds)
 ```
-kubectl port-forward <ldpa-pod-name> 5000:<any-port-wished>
+kubectl port-forward <app-pod-name> 5000:<any-port-wished>
 ```
 
 ## cleaning
@@ -64,4 +64,9 @@ If port forward prosess is still up :
 ```
 ps -ef | grep port-forward
 kill -9 <process number>
+```
+
+stop minikube :
+```
+minikube stop
 ```
